@@ -13,8 +13,14 @@ class CryptoSpider(scrapy.Spider):
     ]
     custom_settings = {
         'FEEDS': {
-            f'{datetime.date.today().strftime("%H-%d-%m-%Y")}.csv' :{
+            f'files/{datetime.date.today().strftime("%d-%m-%Y")}/csv/{datetime.datetime.today().strftime("%H-%d-%m-%Y")}.csv': {
                 'format': 'csv',
+                'encoding': 'utf-8',
+                'indent': 4,
+                'overwrite': True
+            },
+            f'files/{datetime.date.today().strftime("%d-%m-%Y")}/json/{datetime.datetime.today().strftime("%H-%d-%m-%Y")}.json': {
+                'format': 'json',
                 'encoding': 'utf-8',
                 'indent': 4,
                 'overwrite': True
@@ -23,7 +29,6 @@ class CryptoSpider(scrapy.Spider):
         'MEMUSAGE_LIMIT_MB': 2048,
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
     }
-
 
     def parse(self, response):
         coins = response.xpath(CRYPTO_NAMES).getall()
